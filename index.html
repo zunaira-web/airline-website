@@ -1,0 +1,834 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SkyLink Airport Management</title>
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:
+    linear-gradient(rgba(2,6,23,0.86),rgba(2,6,23,0.93)),
+    url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1974&auto=format&fit=crop');
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    width:100%;
+    padding:12px 5%;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+
+    background:rgba(0,0,0,0.30);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+    font-size:26px;
+    font-weight:700;
+}
+
+.logo span{
+    color:#d4af37;
+}
+
+.nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.nav-links button{
+    background:none;
+    border:none;
+    color:white;
+    font-size:14px;
+    cursor:pointer;
+    transition:0.3s;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    position:relative;
+}
+
+.nav-links button i{
+    color:white;
+}
+
+.nav-links button:hover{
+    color:#d4af37;
+}
+
+.nav-links button::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:0%;
+    height:2px;
+    background:#d4af37;
+    transition:0.3s;
+}
+
+.nav-links button:hover::after{
+    width:100%;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero{
+    min-height:100vh;
+    width:100%;
+
+    display:flex;
+    align-items:center;
+
+    padding:120px 5% 60px;
+}
+
+.hero-content{
+    max-width:700px;
+}
+
+.hero-content h1{
+    font-size:clamp(38px,7vw,72px);
+    line-height:1.1;
+    margin-bottom:20px;
+}
+
+.hero-content h1 span{
+    color:#d4af37;
+}
+
+.hero-content p{
+    color:#d1d5db;
+    line-height:1.9;
+    font-size:16px;
+    margin-bottom:35px;
+}
+
+.hero-btn{
+    padding:15px 35px;
+    border:none;
+    border-radius:50px;
+
+    background:linear-gradient(90deg,#d4af37,#f8d878);
+
+    color:#111827;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.hero-btn:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 30px rgba(212,175,55,0.4);
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+    width:100%;
+    padding:70px 5%;
+}
+
+.dashboard-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.dashboard-title h2{
+    font-size:clamp(30px,5vw,45px);
+    margin-bottom:10px;
+}
+
+.dashboard-title p{
+    color:#d1d5db;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:25px;
+
+    margin-bottom:50px;
+}
+
+.card{
+    background:rgba(255,255,255,0.06);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    padding:30px;
+
+    border-radius:25px;
+
+    backdrop-filter:blur(14px);
+
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+
+    background:rgba(255,255,255,0.08);
+
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.card h3{
+    color:#d4af37;
+    margin-bottom:10px;
+}
+
+.card p{
+    font-size:35px;
+    font-weight:700;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.forms-container{
+    display:flex;
+    flex-direction:column;
+    gap:40px;
+}
+
+section{
+    display:none;
+
+    background:rgba(255,255,255,0.06);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    padding:35px;
+
+    border-radius:30px;
+
+    backdrop-filter:blur(15px);
+
+    animation:fade 0.5s ease;
+}
+
+section.active{
+    display:block;
+}
+
+@keyframes fade{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+section h2{
+    margin-bottom:25px;
+    font-size:clamp(26px,4vw,36px);
+    color:#d4af37;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+input{
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:white;
+
+    outline:none;
+
+    border:1px solid transparent;
+
+    transition:0.3s;
+}
+
+input::placeholder{
+    color:#d1d5db;
+}
+
+input:focus{
+    border:1px solid #d4af37;
+    background:rgba(255,255,255,0.1);
+}
+
+.save-btn{
+    margin-top:25px;
+
+    padding:15px 35px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:linear-gradient(90deg,#d4af37,#f8d878);
+
+    color:#111827;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:0.4s;
+}
+
+.save-btn:hover{
+    transform:scale(1.05);
+
+    box-shadow:0 10px 25px rgba(212,175,55,0.4);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    margin-top:100px;
+
+    background:rgba(0,0,0,0.45);
+
+    border-top:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(14px);
+
+    padding:60px 5% 30px;
+}
+
+.footer-top{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:40px;
+
+    margin-bottom:40px;
+}
+
+.footer-box h3{
+    color:#d4af37;
+    margin-bottom:20px;
+}
+
+.footer-box p{
+    color:#d1d5db;
+    line-height:1.8;
+}
+
+.footer-box ul{
+    list-style:none;
+}
+
+.footer-box ul li{
+    margin:12px 0;
+    color:#d1d5db;
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.footer-box ul li:hover{
+    color:#d4af37;
+    transform:translateX(5px);
+}
+
+.footer-bottom{
+    border-top:1px solid rgba(255,255,255,0.08);
+
+    padding-top:25px;
+
+    text-align:center;
+
+    color:#9ca3af;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111827;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#d4af37;
+    border-radius:10px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .navbar{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .nav-links{
+        justify-content:center;
+    }
+
+    .hero{
+        justify-content:center;
+        text-align:center;
+    }
+
+    .hero-content{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer{
+        text-align:center;
+    }
+}
+
+@media(max-width:500px){
+
+    .hero{
+        padding-top:150px;
+    }
+
+    .hero-btn,
+    .save-btn{
+        width:100%;
+    }
+
+    .nav-links{
+        gap:12px;
+    }
+
+    .nav-links button{
+        font-size:12px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="navbar">
+
+    <div class="logo">
+        <i class="fa-solid fa-plane-departure"></i>
+        Sky<span>Link</span>
+    </div>
+
+    <div class="nav-links">
+
+        <button onclick="showSection('passenger')">
+            <i class="fa-solid fa-user"></i>
+            Passenger
+        </button>
+
+        <button onclick="showSection('flight')">
+            <i class="fa-solid fa-plane"></i>
+            Flights
+        </button>
+
+        <button onclick="showSection('booking')">
+            <i class="fa-solid fa-ticket"></i>
+            Booking
+        </button>
+
+        <button onclick="showSection('staff')">
+            <i class="fa-solid fa-user-tie"></i>
+            Staff
+        </button>
+
+        <button onclick="showSection('airport')">
+            <i class="fa-solid fa-globe"></i>
+            Airports
+        </button>
+
+        <button onclick="showSection('payment')">
+            <i class="fa-solid fa-credit-card"></i>
+            Payment
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     HERO
+========================= -->
+
+<div class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Luxury Airport
+            <span>Management</span>
+            Experience
+        </h1>
+
+        <p>
+            Professional airport administration system inspired by
+            premium airline platforms. Manage passengers,
+            flights, airports, staff, booking and payments
+            in one modern dashboard.
+        </p>
+
+        <button class="hero-btn"
+        onclick="document.querySelector('.dashboard').scrollIntoView()">
+
+            Explore Dashboard
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<div class="dashboard">
+
+    <div class="dashboard-title">
+
+        <h2>Airport Dashboard</h2>
+
+        <p>
+            Modern Aviation Administration System
+        </p>
+
+    </div>
+
+    <!-- CARDS -->
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Passengers</h3>
+            <p>12,450</p>
+        </div>
+
+        <div class="card">
+            <h3>Flights Today</h3>
+            <p>185</p>
+        </div>
+
+        <div class="card">
+            <h3>Bookings</h3>
+            <p>8,920</p>
+        </div>
+
+        <div class="card">
+            <h3>Active Staff</h3>
+            <p>320</p>
+        </div>
+
+    </div>
+
+    <!-- FORMS -->
+
+    <div class="forms-container">
+
+        <!-- PASSENGER -->
+
+        <section id="passenger" class="active">
+
+            <h2>Passenger Form</h2>
+
+            <div class="form-grid">
+
+                <input placeholder="Name">
+                <input placeholder="Email">
+                <input placeholder="Phone">
+                <input placeholder="Passport No">
+                <input placeholder="Gender">
+                <input placeholder="Age">
+                <input placeholder="Pass ID">
+
+            </div>
+
+            <button class="save-btn">
+                Save Passenger
+            </button>
+
+        </section>
+
+        <!-- FLIGHT -->
+
+        <section id="flight">
+
+            <h2>Flight Details</h2>
+
+            <div class="form-grid">
+
+                <input placeholder="Flight ID">
+                <input placeholder="Flight Name">
+                <input placeholder="Departure Airport">
+                <input placeholder="Arrival Airport">
+                <input placeholder="Departure Time">
+                <input placeholder="Arrival Time">
+                <input placeholder="Price">
+
+            </div>
+
+            <button class="save-btn">
+                Save Flight
+            </button>
+
+        </section>
+
+        <!-- BOOKING -->
+
+        <section id="booking">
+
+            <h2>Booking</h2>
+
+            <div class="form-grid">
+
+                <input placeholder="Booking ID">
+                <input placeholder="Booking Date">
+                <input placeholder="Seat No">
+                <input placeholder="Status">
+                <input placeholder="Passenger ID">
+                <input placeholder="Flight ID">
+
+            </div>
+
+            <button class="save-btn">
+                Save Booking
+            </button>
+
+        </section>
+
+        <!-- STAFF -->
+
+        <section id="staff">
+
+            <h2>Staff</h2>
+
+            <div class="form-grid">
+
+                <input placeholder="Staff ID">
+                <input placeholder="Name">
+                <input placeholder="Role">
+                <input placeholder="Phone">
+                <input placeholder="Airport ID">
+
+            </div>
+
+            <button class="save-btn">
+                Save Staff
+            </button>
+
+        </section>
+
+        <!-- AIRPORT -->
+
+        <section id="airport">
+
+            <h2>Airports</h2>
+
+            <div class="form-grid">
+
+                <input placeholder="Airport ID">
+                <input placeholder="Airport Name">
+                <input placeholder="City">
+                <input placeholder="Country">
+
+            </div>
+
+            <button class="save-btn">
+                Save Airport
+            </button>
+
+        </section>
+
+        <!-- PAYMENT -->
+
+        <section id="payment">
+
+            <h2>Payment</h2>
+
+            <div class="form-grid">
+
+                <input placeholder="Payment ID">
+                <input placeholder="Amount">
+                <input placeholder="Booking ID">
+                <input placeholder="Payment Method">
+                <input placeholder="Status">
+
+            </div>
+
+            <button class="save-btn">
+                Pay Now
+            </button>
+
+        </section>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<div class="footer">
+
+    <div class="footer-top">
+
+        <div class="footer-box">
+
+            <h3>About SkyLink</h3>
+
+            <p>
+                A premium airport management system
+                designed for modern aviation operations
+                with luxury inspired interface and
+                professional dashboard experience.
+            </p>
+
+        </div>
+
+        <div class="footer-box">
+
+            <h3>Services</h3>
+
+            <ul>
+                <li>Passenger Management</li>
+                <li>Flight Scheduling</li>
+                <li>Airport Administration</li>
+                <li>Booking System</li>
+            </ul>
+
+        </div>
+
+        <div class="footer-box">
+
+            <h3>Contact</h3>
+
+            <ul>
+                <li>Email: skylink@airport.com</li>
+                <li>Phone: +92 300 1234567</li>
+                <li>Dubai Aviation Center</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © 2026 SkyLink Airport Management System
+
+    </div>
+
+</div>
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+function showSection(id){
+
+    let sections = document.querySelectorAll("section");
+
+    sections.forEach(section=>{
+        section.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    document.getElementById(id).scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+</script>
+
+</body>
+</html>
+
